@@ -2,7 +2,7 @@ pipeline{
     agent any
 
     stages {
-        stage('Compile Stage'){
+        stage('Compile'){
             steps {
                 withMaven(maven: 'maven_3_6_3'){
                     sh 'mvn clean compile'
@@ -10,7 +10,7 @@ pipeline{
             }
         }
 
-        stage('Testing Stage'){
+        stage('Unit Testing'){
             steps {
                 withMaven(maven: 'maven_3_6_3'){
                      sh 'mvn test'
@@ -18,7 +18,7 @@ pipeline{
             }
         }
 
-        stage('Package Stage'){
+        stage('Jar Package'){
             steps {
                 withMaven(maven: 'maven_3_6_3'){
                     sh 'mvn package'
@@ -26,12 +26,30 @@ pipeline{
             }
         }
 
-        stage('Deploy Stage'){
+        stage('Local Deploy'){
             steps {
                 script {
-                    sh 'java -jar target/karateframework-0.0.1-SNAPSHOT.jar'
+                    sh 'nohup java -jar target/karateframework-0.0.1-SNAPSHOT.jar &'
                  }
              }
+        }
+
+        sleep(time:10,unit:"SECONDS")
+
+        stage('Functional Testing'){
+            steps {
+                script {
+                    sh 'mvn test -Dtest=KarateRunner'
+                 }
+            }
+        }
+
+        stage('Kill Deployment'){
+            steps {
+                script {
+                    sh 'kill $(lsof -ti:8080)'
+                }
+            }
         }
     }
 }
