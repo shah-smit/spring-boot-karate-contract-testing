@@ -1,12 +1,33 @@
 package com.example.karateframework.Service;
 
+import com.example.karateframework.Repository.VersionEntity;
+import com.example.karateframework.Repository.VersionRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class HomeService {
 
+    @Autowired
+    private VersionRepository versionRepository;
+
     public String getName(String name){
         return getNameFormat(name);
+    }
+
+    public void addVersion(String version){
+        VersionEntity v = new VersionEntity();
+        v.setVersionId(version);
+        this.versionRepository.save(v);
+    }
+
+    public String getVersion(){
+        if(this.versionRepository.findAll().size() > 0){
+            return this.versionRepository.findAll().get(0).getVersionId();
+        }
+        else {
+            return "v1.0";
+        }
     }
 
 
