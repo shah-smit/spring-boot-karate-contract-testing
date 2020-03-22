@@ -34,7 +34,11 @@ pipeline{
              }
         }
 
-        sleep(time:10,unit:"SECONDS")
+        stage('Waiting'){
+            steps {
+                sleep(time:10,unit:"SECONDS")
+            }
+        }
 
         stage('Functional Testing'){
             steps {
