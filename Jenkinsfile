@@ -26,5 +26,12 @@ pipeline{
             }
         }
 
+        stage('Deploy Stage'){
+            steps {
+                script {
+                    sh 'java -jar target/karateframework-0.0.1-SNAPSHOT.jar'
+                 }
+             }
+        }
     }
 }
