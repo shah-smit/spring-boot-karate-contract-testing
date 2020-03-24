@@ -11,33 +11,27 @@ public class HomeService {
     @Autowired
     private VersionRepository versionRepository;
 
-    public String getName(String name){
+    public String getName(String name) {
         return getNameFormat(name);
     }
 
-    public void addVersion(String version){
+    public void addVersion(String version) {
         VersionEntity v = new VersionEntity();
         v.setVersionId(version);
         this.versionRepository.save(v);
     }
 
-    public String getVersion(){
-        if(this.versionRepository.findAll().size() > 0){
-            return this.versionRepository.findAll().get(0).getVersionId();
-        }
-        else {
-            return "v1.0";
-        }
+    public String getVersion() {
+        return "v1.0";
     }
 
 
-    private String getNameFormat(String value){
+    private String getNameFormat(String value) {
         String lowercaseValue = value.toLowerCase();
-        if(value.length() > 1){
+        if (value.length() > 1) {
             StringBuilder stringBuilder = new StringBuilder(lowercaseValue.substring(1));
-            return String.valueOf(value.charAt(0)).toUpperCase()+stringBuilder;
-        }
-        else {
+            return String.valueOf(value.charAt(0)).toUpperCase() + stringBuilder;
+        } else {
             return value.toUpperCase();
         }
     }

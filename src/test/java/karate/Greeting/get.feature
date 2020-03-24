@@ -10,6 +10,22 @@ Feature: Version Greeting Controller
     Then status 200
     And match $ == "v1.0"
 
+  Scenario: Get Application Version with only one header
+
+    * configure headers = { apiVersion: '1.0' }
+    Given path '/withHeaders'
+    When method GET
+    Then status 200
+    And match $ == "v1.0"
+
+  Scenario: Get Application Version with Headers
+
+    * configure headers = { apiVersion: '1.0', device: 'Browser' }
+    Given path '/withHeaders'
+    When method GET
+    Then status 200
+    And match $ == "Headersv1.0"
+
   Scenario: Get application welcome message when param name passed
 
     Given path '/greeting'

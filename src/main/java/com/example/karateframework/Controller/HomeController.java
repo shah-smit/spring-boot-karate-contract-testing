@@ -16,6 +16,17 @@ public class HomeController {
         return homeService.getVersion();
     }
 
+    @GetMapping("/withHeaders")
+
+    public String getVersionWithHeaders(@RequestHeader(required = false) String apiVersion, @RequestHeader(required = false) String device){
+        if(isPresent(apiVersion) && isPresent(device)){
+            return "Headers" + homeService.getVersion();
+        }
+        else {
+            return homeService.getVersion();
+        }
+    }
+
     @GetMapping("/greeting")
     public String getVersionParam(@RequestParam String name){
         return "Welcome to KarateFramework, "+homeService.getName(name);
@@ -31,5 +42,8 @@ public class HomeController {
         homeService.addVersion(versionDTO.getVersion());
     }
 
+    private boolean isPresent(String value){
+        return value != null && !value.isEmpty() && !value.trim().isEmpty();
+    }
 
 }
